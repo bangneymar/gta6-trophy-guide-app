@@ -29,6 +29,20 @@ body {
 a { color: var(--teal); }
 button, select, input { font: inherit; }
 
+/* Keyboard focus must stay visible on every control and trophy card. */
+:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+
+/* Shown only when JavaScript is disabled. */
+.noscript-note {
+  margin: 14px 28px 0;
+  padding: 12px 14px;
+  background: rgba(255,84,112,.14);
+  border: 1px solid var(--danger);
+  border-radius: 9px;
+  color: #ffb3c0;
+  line-height: 1.5;
+}
+
 /* ---- Hero ---- */
 .hero {
   display: flex;
@@ -135,6 +149,7 @@ button.ghost, .import-btn { background: var(--card-2); color: var(--ink); border
 .tag.kind-collectibles { background: #0f5f56; }
 .tag.kind-activities { background: #7a3b12; }
 .tag.kind-completion { background: #8a6d00; }
+.trophy-index { font-size: 12px; color: var(--muted); margin: 0 0 2px; }
 .guide-link { font-size: 13px; font-weight: 700; color: var(--teal); white-space: nowrap; margin-top: 4px; }
 .empty-note { color: var(--muted); }
 
@@ -173,4 +188,5 @@ footer .source-list { font-size: 12.5px; }
 @media (max-width: 560px) {
   .roadmap-stages { grid-template-columns: 1fr; }
   .hero, .controls, .roadmap, .layout, footer { padding-left: 14px; padding-right: 14px; }
+  .noscript-note { margin-left: 14px; margin-right: 14px; }
 }

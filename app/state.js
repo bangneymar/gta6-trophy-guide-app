@@ -2,6 +2,9 @@
 // plus export to a JSON file and import back from one.
 export const STORAGE_KEY = 'leonida-trophy-guide-progress-v1';
 
+// The game this guide tracks — an export file for another game is refused on import.
+export const GAME_NAME = 'Grand Theft Auto VI';
+
 // Load the earned set, keeping only names the guide actually lists.
 export function loadEarned(knownNames) {
   try {
@@ -24,7 +27,7 @@ export function saveEarned(earned) {
 // Build the JSON text an export file carries.
 export function buildExportText(earned) {
   return JSON.stringify(
-    { game: 'Grand Theft Auto VI', guide: 'Leonida Trophy Guide', exportedAt: new Date().toISOString(), earned: [...earned].sort() },
+    { game: GAME_NAME, guide: 'Leonida Trophy Guide', exportedAt: new Date().toISOString(), earned: [...earned].sort() },
     null,
     2,
   );
@@ -42,8 +45,12 @@ export function downloadExport(earned) {
 }
 
 // Parse an imported file's text into an earned set, ignoring unknown names.
+// A file that names a different game is refused instead of silently importing.
 export function parseImportText(text, knownNames) {
   const parsed = JSON.parse(text);
+  if (parsed && typeof parsed === 'object' && !Array.isArray(parsed) && parsed.game && parsed.game !== GAME_NAME) {
+    throw new Error(`That file is progress for ${parsed.game}, not ${GAME_NAME}.`);
+  }
   const names = Array.isArray(parsed) ? parsed : parsed.earned;
   if (!Array.isArray(names)) throw new Error('That file has no earned-trophy list.');
   const earned = new Set(names.filter((name) => typeof name === 'string' && knownNames.has(name)));

@@ -63,6 +63,15 @@ document.getElementById('spoilerToggle').addEventListener('change', (event) => {
   renderAll();
 });
 
+// Press "/" anywhere (outside a text field) to jump straight to the search box.
+document.addEventListener('keydown', (event) => {
+  if (event.key !== '/' || event.ctrlKey || event.metaKey || event.altKey) return;
+  const target = event.target;
+  if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement) return;
+  event.preventDefault();
+  document.getElementById('search').focus();
+});
+
 // Export progress to a JSON file.
 document.getElementById('exportBtn').addEventListener('click', () => {
   downloadExport(earned);

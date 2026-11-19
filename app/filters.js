@@ -21,14 +21,23 @@ export function displayDescription(trophy, spoilerOn, earned) {
     : trophy.description;
 }
 
+// Fold a string for searching: lower case, and strip accents so a search for
+// "leon" also matches "León" and "cafe" matches "café".
+export function foldForSearch(text) {
+  return text
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
+}
+
 // True when a trophy passes the current kind, grade, status and search filters.
 export function matchesFilters(trophy, filters, earned) {
   if (filters.kind !== 'all' && !trophy.kinds.includes(filters.kind)) return false;
   if (filters.grade !== 'all' && trophy.grade !== filters.grade) return false;
   if (filters.status === 'earned' && !earned.has(trophy.name)) return false;
   if (filters.status === 'unearned' && earned.has(trophy.name)) return false;
-  const query = filters.query.trim().toLowerCase();
+  const query = foldForSearch(filters.query.trim());
   if (!query) return true;
-  const haystack = [trophy.name, trophy.description, trophy.guide, ...(trophy.kinds || [])].join(' ').toLowerCase();
+  const haystack = foldForSearch([trophy.name, trophy.description, trophy.guide, ...(trophy.kinds || [])].join(' '));
   return haystack.includes(query);
 }

@@ -22,12 +22,14 @@
   </div>
 </header>
 
+<noscript><p class="noscript-note">This guide needs JavaScript to load the trophy list and save your progress. Please enable JavaScript and reload.</p></noscript>
+
 <div class="controls" id="controls">
   <label class="control search-control">Search
-    <input id="search" type="search" placeholder="Search a trophy, mission or activity…" autocomplete="off">
+    <input id="search" type="search" placeholder="Search a trophy, mission or activity…" autocomplete="off" aria-label="Search trophies by name, mission or activity">
   </label>
   <label class="control">Kind
-    <select id="kindFilter">
+    <select id="kindFilter" aria-label="Filter by kind">
       <option value="all">All kinds</option>
       <option value="story">Story</option>
       <option value="missable">Missable</option>
@@ -37,7 +39,7 @@
     </select>
   </label>
   <label class="control">Grade
-    <select id="gradeFilter">
+    <select id="gradeFilter" aria-label="Filter by grade">
       <option value="all">All grades</option>
       <option value="platinum">Platinum</option>
       <option value="gold">Gold</option>
@@ -46,7 +48,7 @@
     </select>
   </label>
   <label class="control">Status
-    <select id="statusFilter">
+    <select id="statusFilter" aria-label="Filter by earned status">
       <option value="all">Earned &amp; unearned</option>
       <option value="earned">Earned only</option>
       <option value="unearned">Not yet earned</option>

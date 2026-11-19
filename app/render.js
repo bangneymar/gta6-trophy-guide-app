@@ -54,6 +54,8 @@ export function renderRoadmap(roadmap, trophies, earned) {
 }
 
 // Build one trophy card: checkbox, name, description, tags and a guide link.
+// The card also shows the trophy's number in the official list (#id of 55),
+// so a reader can find it again in any other listing of the same list.
 export function buildTrophyCard(trophy, spoilerOn, earned, selectedName, onToggle, onSelect) {
   const item = document.createElement('li');
   const card = document.createElement('article');
@@ -70,6 +72,9 @@ export function buildTrophyCard(trophy, spoilerOn, earned, selectedName, onToggl
   box.addEventListener('change', () => onToggle(trophy.name, box.checked));
 
   const body = document.createElement('div');
+  const index = document.createElement('p');
+  index.className = 'trophy-index';
+  index.textContent = `Trophy #${trophy.id} of 55`;
   const name = document.createElement('h3');
   name.className = 'trophy-name';
   name.textContent = displayName(trophy, spoilerOn, earned);
@@ -94,7 +99,7 @@ export function buildTrophyCard(trophy, spoilerOn, earned, selectedName, onToggl
     tag.textContent = 'Missable';
     tags.append(tag);
   }
-  body.append(name, desc, tags);
+  body.append(index, name, desc, tags);
 
   const link = document.createElement('span');
   link.className = 'guide-link';
@@ -189,7 +194,13 @@ export function renderDetail(trophy, roadmap, spoilerOn, earned, onToggle) {
     sourcesHeading.textContent = 'Sources';
     const sources = document.createElement('ul');
     sources.className = 'source-list';
-    for (const source of trophy.sources || []) {
+    const trophySources = trophy.sources || [];
+    if (trophySources.length === 0) {
+      const item = document.createElement('li');
+      item.textContent = 'No sources listed for this trophy.';
+      sources.append(item);
+    }
+    for (const source of trophySources) {
       const item = document.createElement('li');
       if (source.url) {
         const link = document.createElement('a');
